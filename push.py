@@ -1,29 +1,19 @@
 """
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Author : James Arambam
-Date   : 03 Feb 2017
+Date   : 08 Feb 2017
 Description :
-Input :
-There are two input arguments
-    i. First Argument will be the path to the local project directory :
-            e.g  '/Users/james/workspace/test3'  here test3 is my project folder
-    ii. Second Argument will be the url to git repository :
-            e.g 'https://jamesarambam@bitbucket.org/jamesarambam/test3.git'
-
-            Note : This can work for any git repository either for GitHub or BitBucket
-
-Output :
-
-    You can go to the online repository as check !
+Input : 
+Output : 
 
 
-git Shell Commands :
-git init
-git add .
-git commit -m "First commit"
-git remote add origin remote repository URL
-git remote -v
-git push origin master
+How to use :
+
+$python push.py "message"
+
+or
+
+$python push.py
 
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -35,6 +25,7 @@ import sys
 import os
 import platform
 from pprint import pprint
+import time
 
 # ================================ secImports ================================ #
 
@@ -59,21 +50,24 @@ print "# ============================ START ============================ #"
 ppath = os.getcwd() + "/"  # Project Path Location
 
 
-
 # -------------------------------------------------------------- #
 
 def main():
 
-    local = sys.argv[1]
-    remote = sys.argv[2]
+    s = str(time.strftime("%d/%m/%Y"))
+    tmp = s.split("/")
+    tmp[2] = tmp[2][2:4]
+    version = reduce(lambda v1, v2 : v1+""+v2, tmp)
+    version = "v"+version
+    try:
+        msg = sys.argv[1]
 
-    os.system("cd "+local +" && "+"git init")
-    os.system("cd "+local +" && "+"git add .")
-    os.system("cd "+local +" && "+'git commit -m "First commit"')
-    os.system("cd "+local +" && "+"git remote add origin "+remote)
-    os.system("cd "+local +" && "+"git remote -v")
-    os.system("cd "+local +" && "+"git push origin master")
-
+    except:
+        msg = ""
+        os.system("cd "+ppath)
+    os.system("cd "+ppath +" && "+"git add .")
+    os.system("cd "+ppath +" && "+'git commit -m "'+version+' - '+msg+'"')
+    os.system("cd "+ppath +" && "+'git push')
 
 
 # =============================================================================== #
